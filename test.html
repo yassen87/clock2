@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Watch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        #study-time {
+            font-size: 2rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        button, input {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+        button {
+            cursor: pointer;
+        }
+        #study-sessions {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+        #study-sessions li {
+            background-color: #f0f0f0;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Study Watch</h1>
+        <input type="number" id="study-duration" placeholder="Enter study duration (minutes)" min="1">
+        <div id="study-time">00:00:00</div>
+        <button id="start-study">Start Studying</button>
+        <button id="stop-study">Stop Studying</button>
+        <h2>Study Log</h2>
+        <ul id="study-sessions"></ul>
+    </div>
+
+    <script>
+        let studyInterval;
+        let studyStartTime;
+        let studyDuration = 0;
+        let targetDuration = 0;
+
+        const studyTimeDisplay = document.getElementById('study-time');
+        const startStudyButton = document.getElementById('start-study');
+        const stopStudyButton = document.getElementById('stop-study');
+        const studySessionsList = document.getElementById('study-sessions');
+        const studyDurationInput = document.getElementById('study-duration');
+
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const remainingSeconds = seconds % 60;
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function updateStudyTime() {
+            const currentTime = new Date().getTime();
+            const elapsedTime = Math.floor((currentTime - studyStartTime) / 1000) + studyDuration;
+            studyTimeDisplay.textContent = formatTime(elapsedTime);
+
+            if (elapsedTime % 3600 === 0 && elapsedTime > 0) {
+                alert('صلي علي محمد');
+            }
+
+            if (targetDuration > 0 && elapsedTime >= targetDuration) {
+                stopStudy();
+                alert('Study session completed!');
+            }
+        }
+
+        function startStudy() {
+            if (!studyInterval) {
+                targetDuration = parseInt(studyDurationInput.value) * 60 || 0;
+                studyStartTime = new Date().getTime();
+                studyInterval = setInterval(updateStudyTime, 1000);
+                startStudyButton.disabled = true;
+                stopStudyButton.disabled = false;
+                studyDurationInput.disabled = true;
+            }
+        }
+
+        function stopStudy() {
+            if (studyInterval) {
+                clearInterval(studyInterval);
+                studyInterval = null;
+                const currentTime = new Date().getTime();
+                studyDuration += Math.floor((currentTime - studyStartTime) / 1000);
+
+                const studySession = document.createElement('li');
+                studySession.textContent = `Study session: ${formatTime(studyDuration)}`;
+                studySessionsList.appendChild(studySession);
+
+                studyDuration = 0;
+                targetDuration = 0;
+                studyTimeDisplay.textContent = '00:00:00';
+                startStudyButton.disabled = false;
+                stopStudyButton.disabled = true;
+                studyDurationInput.disabled = false;
+                studyDurationInput.value = '';
+            }
+        }
+
+        startStudyButton.addEventListener('click', startStudy);
+        stopStudyButton.addEventListener('click', stopStudy);
+
+        // Initialize button states
+        startStudyButton.disabled = false;
+        stopStudyButton.disabled = true;
+        // Show an alert message
+alert("صلي علي محمد");
+
+// Create a paragraph element for the inline message
+var p = document.createElement("p");
+p.textContent = "This is an inline message!";
+document.body.appendChild(p);
+
+// Create a div element for the toast
+var toast = document.createElement("div");
+toast.style.visibility = "hidden";
+toast.style.minWidth = "250px";
+toast.style.marginLeft = "-125px";
+toast.style.backgroundColor = "#333";
+toast.style.color = "#fff";
+toast.style.textAlign = "center";
+toast.style.borderRadius = "2px";
+toast.style.padding = "16px";
+toast.style.position = "fixed";
+toast.style.zIndex = "1";
+toast.style.left = "50%";
+toast.style.bottom = "30px";
+toast.style.fontSize = "17px";
+toast.textContent = "This is a toast message!";
+document.body.appendChild(toast);
+
+// Function to show the toast
+function showToast() {
+    toast.style.visibility = "visible";
+    setTimeout(function() {
+        toast.style.visibility = "hidden";
+    }, 3000);
+}
+
+// Show the toast
+showToast();
+
+    </script>
+</body>
+</html>
